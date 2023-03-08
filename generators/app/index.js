@@ -3,15 +3,11 @@ const chalk = require("chalk");
 const yosay = require("yosay");
 
 module.exports = class extends Generator {
+  // 异步函数，询问并获取用户输入信息
   async prompting() {
-    this.log(
-      yosay(
-        `Welcome to the scrumtrulescent ${chalk.red(
-          "generator-san"
-        )} generator!`
-      )
-    );
+    this.log(yosay(`Welcome to ${chalk.red("generator-san")} generator!`));
 
+    // 使用数组声明交互式提示问题
     const prompts = [
       {
         type: "input",
@@ -53,10 +49,13 @@ module.exports = class extends Generator {
       },
     ];
 
+    // await 方法等待用户响应所有提示问题，传递到 answers 对象上
     this.answers = await this.prompt(prompts);
   }
 
+  // 根据用户的输入, 生成文件
   writing() {
+    // package.json 配置
     const pkgJson = {
       name: this.appname,
       version: "0.1.0",
@@ -77,8 +76,9 @@ module.exports = class extends Generator {
     };
 
     if (this.answers.typescript) {
+      // 自动添加相关依赖包名称和版本号
       pkgJson.devDependencies = {
-        ...pkgJson.devDependencies,
+        ...pkgJson.devDependencies, // 合并对象
         "@vitejs/plugin-react": "^1.0.0",
         "@types/react": "^17.0.8",
         "@types/react-dom": "^17.0.5",
@@ -126,8 +126,10 @@ module.exports = class extends Generator {
       };
     }
 
+    // package.json 文件写入
     this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
 
+    // 复制相关文件
     this.fs.copyTpl(
       this.templatePath("index.html"),
       this.destinationPath("index.html")
@@ -179,6 +181,7 @@ module.exports = class extends Generator {
     }
   }
 
+  // 安装相关依赖
   install() {
     const dependencies = ["react", "react-dom", "axios"];
     const devDependencies = ["vite"];
