@@ -58,7 +58,7 @@ module.exports = class extends Generator {
     // package.json 配置
     const pkgJson = {
       name: this.appname,
-      version: "0.1.0",
+      version: "0.1.3",
       scripts: {
         start: "vite",
         build: "vite build",
@@ -66,12 +66,14 @@ module.exports = class extends Generator {
         test: "jest",
       },
       dependencies: {
-        react: "^17.0.2",
-        "react-dom": "^17.0.2",
-        axios: "^0.21.1",
+        react: "^18.2.0",
+        "react-dom": "^18.2.0",
+        axios: "^1.6.2",
+        "react-scripts": "5.0.1",
       },
       devDependencies: {
-        vite: "^4.1.4",
+        vite: "^5.0.6",
+        "@vitejs/plugin-react": "4.2.1",
       },
     };
 
@@ -79,50 +81,44 @@ module.exports = class extends Generator {
       // 自动添加相关依赖包名称和版本号
       pkgJson.devDependencies = {
         ...pkgJson.devDependencies, // 合并对象
-        "@vitejs/plugin-react": "^1.0.0",
-        "@types/react": "^17.0.8",
-        "@types/react-dom": "^17.0.5",
-        typescript: "^4.3.5",
-      };
-    } else {
-      pkgJson.devDependencies = {
-        ...pkgJson.devDependencies,
-        "@vitejs/plugin-react": "3.1.0",
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        typescript: "^5.3",
       };
     }
 
     if (this.answers.less) {
       pkgJson.devDependencies = {
         ...pkgJson.devDependencies,
-        less: "^4.1.1",
-        "less-loader": "^8.0.0",
+        less: "^4.2.0",
+        "less-loader": "^11.1.3",
       };
     }
 
     if (this.answers.eslint) {
       pkgJson.devDependencies = {
         ...pkgJson.devDependencies,
-        eslint: "^7.32.0",
-        "eslint-plugin-react": "^7.26.1",
-        "eslint-plugin-react-hooks": "^4.2.0",
+        eslint: "^8.55.0",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
       };
     }
 
     if (this.answers.redux) {
       pkgJson.dependencies = {
         ...pkgJson.dependencies,
-        redux: "^4.1.1",
-        "react-redux": "^7.2.4",
+        redux: "^5.0.0",
+        "react-redux": "^9.0.2",
       };
     }
 
     if (this.answers.jest) {
       pkgJson.devDependencies = {
         ...pkgJson.devDependencies,
-        jest: "^27.0.6",
-        "babel-jest": "^27.0.6",
-        "@testing-library/react": "^12.0.0",
-        "@testing-library/jest-dom": "^5.14.1",
+        jest: "^29.7.0",
+        "babel-jest": "^29.7.0",
+        "@testing-library/react": "^14.1.2",
+        "@testing-library/jest-dom": "^6.1.5",
       };
     }
 
@@ -188,9 +184,7 @@ module.exports = class extends Generator {
 
     if (this.answers.typescript) {
       dependencies.push("@types/react", "@types/react-dom");
-      devDependencies.push("@vitejs/plugin-react", "typescript");
-    } else {
-      devDependencies.push("@vitejs/plugin-react");
+      devDependencies.push("typescript");
     }
 
     if (this.answers.less) {
@@ -218,7 +212,7 @@ module.exports = class extends Generator {
       );
     }
 
-    this.npmInstall(dependencies, { "save-dev": false });
-    this.npmInstall(devDependencies, { "save-dev": true });
+    this.addDependencies(dependencies);
+    this.addDevDependencies(devDependencies);
   }
 };

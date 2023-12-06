@@ -1,8 +1,8 @@
 {
   "name": "generator-san",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A React scaffolding",
-  "homepage": "https://github.com/c7uge3",
+  "homepage": "https://github.com/c7uge3/generator-san",
   "author": {
     "name": "c7uge3",
     "email": "atthiphi@gmail.com",
